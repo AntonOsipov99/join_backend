@@ -1,9 +1,9 @@
 from rest_framework import serializers
-from join_backend_app.models import Contact_info, AllTasks, SortTasks, Summary, Data
+from join_backend_app.models import Contacts, AllTasks, Users
 
-class Contact_infoSerializer(serializers.ModelSerializer):
+class ContactsSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Contact_info
+        model = Contacts
         exclude = []
         
 class TasksSerializer(serializers.ModelSerializer):
@@ -11,17 +11,7 @@ class TasksSerializer(serializers.ModelSerializer):
         model = AllTasks
         exclude = []
         
-class SortTasksSerializer(serializers.ModelSerializer):
+class UsersSerializer(serializers.ModelSerializer):
     class Meta:
-        model = SortTasks
-        exclude = []
-        
-class SummarySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Summary
-        exclude = []
-
-class DataSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Data
+        model = Users
         exclude = []

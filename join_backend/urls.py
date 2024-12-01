@@ -19,5 +19,6 @@ from django.urls import include, path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('join/', include('join_backend_app.join.urls'))
+    path('join/', include('join_backend_app.join.urls')),
+    path('join/auth/', include('user_auth_app.api.urls'))
 ]
