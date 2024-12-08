@@ -1,51 +1,44 @@
 
 from rest_framework import serializers
-from user_auth_app.models import UserProfile
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
+from django.core.validators import RegexValidator
+from rest_framework.authtoken.models import Token
 
-
-class UserProfileSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UserProfile
-        fields = ['username', 'email']
         
-class LoginSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = get_user_model()
-        fields = ['email', 'password']
-        extra_kwargs = {
-            'password': {'write_only': True}
-        }
-    
+class LoginSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    password = serializers.CharField()
+
     def validate(self, data):
-        email = data.get('email')
-        password = data.get('password')
-        
-        if not email or not password:
-            raise serializers.ValidationError({'error': 'Email and password are required'})
-        
+        email = data['email']
+        password = data['password']
+
         try:
-            user = get_user_model().objects.get(email=email)
-        except get_user_model().DoesNotExist:
-            raise serializers.ValidationError({'error': 'User not found'})
-        
-        if not user.check_password(password):
-            raise serializers.ValidationError({'error': 'Invalid credentials'})
-        
-        data['user'] = user
-        return data
-        
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            raise serializers.ValidationError("User not found")
+
+        if user.check_password(password):
+            token, created = Token.objects.get_or_create(user=user)
+            return {'token': token.key, 'username': user.username}
+        else:
+            raise serializers.ValidationError("Incorrect password")
+
+username_validator = RegexValidator(
+    regex=r'^[\w\s]+$',  # Erlaubt Buchstaben, Zahlen, Unterstriche und Leerzeichen
+    message='Enter a valid username. This value may contain letters, numbers, underscores, and spaces.',
+    code='invalid_username'
+)
 class RegistrationSerializer(serializers.ModelSerializer):
     repeated_password = serializers.CharField(write_only= True)
-    
+
     class Meta:
         model = User
         fields = ['username', 'email', 'password', 'repeated_password']
         extra_kwargs = {
-            'password': {
-                'write_only': True
-            }
+            'password': {'write_only': True},
+            'username': {'validators': [username_validator]}
         }
         
     def save(self):
@@ -55,12 +48,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
         if pw != repeated_pw:
             raise serializers.ValidationError({'error': 'passwords dont match'})
         
-        account = User(email=self.validated_data['email'], username=self.validated_data['username'])
+        account = User(username=self.validated_data['username'], email=self.validated_data['email'])
         account.set_password(pw)
         account.save()
-        UserProfile.objects.create(
-        user=account,
-        username=account.username,
-        email=account.email
-    )
         return account
