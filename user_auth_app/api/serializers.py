@@ -41,6 +41,16 @@ class RegistrationSerializer(serializers.ModelSerializer):
             'username': {'validators': [username_validator]}
         }
         
+    def validate_email(self, value):
+        if User.objects.filter(email=value).exists():
+            raise serializers.ValidationError("This email address is already registered.")
+        return value
+
+    def validate_username(self, value):
+        if User.objects.filter(username=value).exists():
+            raise serializers.ValidationError(" This username is already taken.")
+        return value
+        
     def save(self):
         pw = self.validated_data['password']
         repeated_pw = self.validated_data['repeated_password']
