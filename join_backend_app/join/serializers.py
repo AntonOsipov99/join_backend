@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from join_backend_app.models import Contacts, AllTasks, Users
+from join_backend_app.models import Contacts, AllTasks
 
 class ContactsSerializer(serializers.ModelSerializer):
     class Meta:
@@ -9,9 +9,4 @@ class ContactsSerializer(serializers.ModelSerializer):
 class TasksSerializer(serializers.ModelSerializer):
     class Meta:
         model = AllTasks
-        exclude = []
-        
-class UsersSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Users
         exclude = []

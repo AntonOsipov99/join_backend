@@ -11,9 +11,3 @@ class AllTasks(models.Model):
     
     def __str__(self):
         return str(self.allTasks)
-    
-class Users(models.Model):
-    users = models.JSONField(default=list, blank=True)
-    
-    def __str__(self):
-        return str(self.users)
