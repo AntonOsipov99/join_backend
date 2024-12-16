@@ -8,4 +8,3 @@ A backend for the task management web app Join.
 * Create a plan for the database changes with the command "python manage.py makemigrations"
 * The command "python manage.py" executes the plan and makes the actual changes to your database
 * Run the server with the command "python manage.py runserver"
-* Go to "https://join-backend.anton-osipov.de/" and enjoy
