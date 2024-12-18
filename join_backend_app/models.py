@@ -1,13 +1,30 @@
 from django.db import models
 
-class Contacts(models.Model):
-    contacts = models.JSONField(default=list, blank=True)
+class Contact(models.Model):
+    name = models.CharField(max_length=100, null=True, blank=True)
+    email = models.EmailField(null=True, blank=True)
+    phone = models.CharField(max_length=50, null=True, blank=True)
+    color = models.CharField(max_length=50, null=True, blank=True)
     
     def __str__(self):
-        return str(self.contacts)
+        return str(self.name)
     
-class AllTasks(models.Model):
-    allTasks = models.JSONField(default=list, blank=True)
+class Task(models.Model):
+    title = models.CharField(max_length=200, null=True, blank=True)
+    task_category = models.JSONField(null=True, blank=True)
+    subtasks_status_array = models.JSONField(null=True, blank=True)
+    subtasks_id =  models.JSONField(null=True, blank=True) 
+    subtasks =  models.JSONField(null=True, blank=True) 
+    progress_bar_id = models.CharField(max_length=50, null=True, blank=True)
+    priority = models.JSONField(null=True, blank=True) 
+    in_which_container = models.CharField(max_length=100, null=True, blank=True)
+    task_id = models.CharField(max_length=50, null=True, blank=True)
+    description_text = models.TextField(null=True, blank=True)
+    created_at = models.DateField(null=True)
+    category_colors = models.JSONField(null=True, blank=True)
+    assigned_to_values = models.JSONField(null=True, blank=True)
+    assigned_to_colors = models.JSONField(null=True, blank=True)
+    assigned_short_values = models.JSONField(null=True, blank=True)
     
     def __str__(self):
-        return str(self.allTasks)
+        return str(self.title)
