@@ -7,7 +7,6 @@ import datetime
 @admin.register(Contact)
 class ContactsAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'email', 'phone', 'color')
-    list_filter = ('color',)
     search_fields = ('name', 'email', 'phone')
 
 
@@ -30,7 +29,6 @@ class TasksAdmin(admin.ModelAdmin):
         'priority',
         'created_at',
     )
-    list_filter = ('task_category', 'priority', 'created_at')
     search_fields = ('title', 'description_text', 'task_id')
 
     fieldsets = (
