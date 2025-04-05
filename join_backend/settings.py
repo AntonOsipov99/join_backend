@@ -25,7 +25,12 @@ SECRET_KEY = 'django-insecure-7#+w1*d7pek28)f9@a88x(2^2!l_y2eqx#pp^fmpvp19+d%jh*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    '34.107.41.204',
+    'backend.anton-join-server.de',
+    'localhost',
+ ]
 
 
 # Application definition
@@ -42,7 +47,6 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'corsheaders',
     'user_auth_app',
-    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -55,7 +59,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 INTERNAL_IPS = [
