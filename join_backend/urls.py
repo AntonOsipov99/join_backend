@@ -20,8 +20,8 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('join/', include('join_backend_app.join.urls')),
-    path('join/auth/', include('user_auth_app.api.urls'))
+    path('api/', include('join_backend_app.api.urls')),
+    path('api/auth/', include('user_auth_app.api.urls'))
 ]
 
 if settings.DEBUG:

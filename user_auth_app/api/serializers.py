@@ -1,7 +1,6 @@
 
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from django.contrib.auth import get_user_model
 from django.core.validators import RegexValidator
 from rest_framework.authtoken.models import Token
 
@@ -26,7 +25,7 @@ class LoginSerializer(serializers.Serializer):
             raise serializers.ValidationError("Incorrect password")
 
 username_validator = RegexValidator(
-    regex=r'^[\w\s]+$',  # Erlaubt Buchstaben, Zahlen, Unterstriche und Leerzeichen
+    regex=r'^[\w\s]+$',
     message='Enter a valid username. This value may contain letters, numbers, underscores, and spaces.',
     code='invalid_username'
 )

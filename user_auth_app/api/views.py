@@ -3,11 +3,10 @@ from .serializers import RegistrationSerializer, LoginSerializer
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-from django.http import HttpResponse
 from rest_framework import status
-import pdb
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.authentication import TokenAuthentication
+from django.contrib.auth import get_user_model    
+
+User = get_user_model()
     
 class LoginView(APIView):
     permission_classes = [AllowAny]
@@ -34,3 +33,27 @@ class RegistrationView(APIView):
         else:
             return Response(serializer.errors)
             
+class EmailCheckView(APIView):
+    permission_classes = [AllowAny]
+    
+    def post(self, request):
+        email = request.data.get('email')
+        
+        if not email:
+            return Response(
+                {"error": "Email is required"}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+            
+        user_exists = User.objects.filter(email=email).exists()
+        
+        if user_exists:
+            return Response(
+                {"email": email},
+                status=status.HTTP_200_OK
+            )
+        else:
+            return Response(
+                {"error": "User with this email not found"},
+                status=status.HTTP_404_NOT_FOUND
+            )
